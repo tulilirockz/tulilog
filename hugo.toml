@@ -1,0 +1,13 @@
+baseURL = 'https://tulilirockz.github.io/tulilog'
+languageCode = 'en-us'
+title = 'tulilog'
+theme = 'peak'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

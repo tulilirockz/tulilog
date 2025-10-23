@@ -26,8 +26,9 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt update -y
-          sudo apt install --no-install-recommends -y hugo
+          DOWNLOAD_URL=$(curl "https://api.github.com/repos/gohugoio/hugo/releases/latest" | jq -r '.assets[] | select(.name| test("hugo_0.*_linux-amd64.tar.gz$")).browser_download_url')
+          curl -fsSLo ./hugo.tar.gz "$DOWNLOAD_URL" --retry 3
+          tar xf ./hugo.tar.gz
       - name: Cache restore
         id: cache-restore
         uses: actions/cache/restore@v4
@@ -37,7 +38,7 @@ jobs:
           restore-keys: hugo-
       - name: Build the site
         run: |
-          hugo \
+          ./hugo \
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/" \
